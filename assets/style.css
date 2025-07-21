@@ -17,9 +17,8 @@ body {
 }
 
 .card-wrapper {
-  position: relative;
-  padding: 10px;
-  border-radius: 30px;
+  padding: 12px;
+  border-radius: 40px;
   background: linear-gradient(270deg, #ff00c8, #00f0ff, #00ff80, #ffb700, #ff0055);
   background-size: 600% 600%;
   animation: spinRGB 5s linear infinite;
@@ -27,66 +26,82 @@ body {
 
 .card {
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(16px);
-  border-radius: 25px;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
-  padding: 60px 40px;
-  text-align: center;
-  max-width: 700px;
+  backdrop-filter: blur(20px);
+  border-radius: 35px;
+  padding: 80px 60px;
+  max-width: 900px;
   width: 100vw;
-  box-sizing: border-box;
+  text-align: center;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
 }
 
 .avatar {
-  width: 180px;
-  height: 180px;
+  width: 220px;
+  height: 220px;
   border-radius: 50%;
   border: 5px solid #7289da;
   box-shadow: 0 0 30px #7289daaa;
   margin-bottom: 30px;
-  transition: transform 0.3s ease;
-}
-
-.avatar:hover {
-  transform: scale(1.05);
+  object-fit: cover;
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: 3.5rem;
   margin-bottom: 20px;
 }
 
 #status,
-#custom-status {
+#custom-status,
+#badge,
+#clan,
+#global {
   font-size: 1.8rem;
-  color: #ccc;
   margin: 10px 0;
+  color: #ddd;
 }
 
-.tagline {
+#banner {
   margin-top: 30px;
-  color: #aaa;
-  font-size: 1.4rem;
+  border-radius: 20px;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  box-shadow: 0 0 20px #000;
+}
+
+.glitch {
+  font-size: 1.5rem;
+  color: black;
+  margin-top: 40px;
+  position: relative;
+  display: inline-block;
+  animation: glitch 1.5s infinite;
+  font-weight: bold;
   letter-spacing: 1px;
 }
 
 @keyframes spinRGB {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 100% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+@keyframes glitch {
+  0% { text-shadow: 2px 2px red; }
+  20% { text-shadow: -2px -2px lime; }
+  40% { text-shadow: 2px -2px cyan; }
+  60% { text-shadow: -2px 2px yellow; }
+  80% { text-shadow: 2px 2px magenta; }
+  100% { text-shadow: 0 0 0; }
 }
 
 @media (max-width: 768px) {
   .card {
-    padding: 40px 25px;
+    padding: 50px 30px;
   }
 
   .avatar {
-    width: 130px;
-    height: 130px;
+    width: 150px;
+    height: 150px;
   }
 
   h1 {
@@ -94,35 +109,18 @@ h1 {
   }
 
   #status,
-  #custom-status {
-    font-size: 1.4rem;
+  #custom-status,
+  #badge,
+  #clan,
+  #global {
+    font-size: 1.3rem;
   }
 
-  .tagline {
-    font-size: 1.1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .card {
-    padding: 30px 20px;
+  #banner {
+    height: 120px;
   }
 
-  .avatar {
-    width: 110px;
-    height: 110px;
-  }
-
-  h1 {
-    font-size: 1.8rem;
-  }
-
-  #status,
-  #custom-status {
-    font-size: 1.2rem;
-  }
-
-  .tagline {
+  .glitch {
     font-size: 1rem;
   }
 }
