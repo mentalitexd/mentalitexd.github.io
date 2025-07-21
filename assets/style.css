@@ -15,35 +15,27 @@ body {
   overflow: hidden;
 }
 
-.card {
+.card-wrapper {
   position: relative;
-  width: 90%;
-  max-width: 400px;
-  padding: 40px 30px;
-  text-align: center;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
-  animation: fadeIn 1.5s ease-in-out;
-  z-index: 1;
-  overflow: hidden;
+  display: inline-block;
+  padding: 6px; /* Çerçeve kalınlığı */
+  border-radius: 24px;
+  background: linear-gradient(270deg, #ff00c8, #00f0ff, #00ff80, #ffb700, #ff0055);
+  background-size: 600% 600%;
+  animation: borderSpin 5s linear infinite;
 }
 
-.card::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(270deg, #ff00c8, #00f0ff, #00ff80, #ffb700, #ff0055);
-  background-size: 1000% 1000%;
-  animation: borderFlow 6s linear infinite;
-  z-index: -1;
-  border-radius: 22px;
-  filter: blur(4px);
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 40px 30px;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+  position: relative;
+  z-index: 1;
+  width: 90vw;
+  max-width: 400px;
 }
 
 .avatar {
@@ -79,18 +71,7 @@ h1 {
   letter-spacing: 1px;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes borderFlow {
+@keyframes borderSpin {
   0% {
     background-position: 0% 50%;
   }
@@ -101,7 +82,6 @@ h1 {
 
 @media (max-width: 600px) {
   .card {
-    max-width: 90%;
     padding: 30px 20px;
   }
 
