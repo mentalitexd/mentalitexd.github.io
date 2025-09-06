@@ -1,5 +1,5 @@
 {
-  "manifestApiUrl": "https://violand.dev.tc/api/manifest/",
+  "manifestApiUrl": "https://app.violand.dev.tc/api/manifest/",
   "timeout": 10000,
   "maxRetries": 3,
   "enableLogging": true
