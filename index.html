@@ -6,20 +6,22 @@
     <title>VioLand - Manifest Generator</title>
     <link rel="stylesheet" href="./assets/styles/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="./icons/kendimkoyucam.png" type="image/png">
+    <link rel="icon" href="./icons/V-ico.png" type="image/png">
 </head>
 <body>
     <div class="background-animation">
         <div class="police-light red"></div>
         <div class="police-light blue"></div>
+        <div class="grid-lines"></div>
     </div>
     
     <div class="container">
         <h1 class="title">VIOLAND</h1>
+        <div class="subtitle">MANIFEST GENERATOR</div>
         
         <div class="search-container">
             <div class="input-container">
-                <input type="text" id="gameID" placeholder="Game ID girin...">
+                <input type="text" id="gameID" placeholder="ENTER GAME ID...">
                 <button id="searchBtn">
                     <i class="fas fa-search"></i>
                 </button>
@@ -27,7 +29,10 @@
         </div>
         
         <div class="log-container">
-            <pre id="logOutput">{"status": "ready", "message": "Game ID bekleniyor..."}</pre>
+            <div id="logOutput">
+                <div class="log-entry log-info">[SYSTEM INITIALIZED] VioLand Manifest Generator Hazır</div>
+                <div class="log-entry log-info">[SYSTEM] Lütfen Oyun ID Gir!</div>
+            </div>
         </div>
     </div>
     
