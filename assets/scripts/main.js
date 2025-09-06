@@ -2,17 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const gameIDInput = document.getElementById('gameID');
     const searchBtn = document.getElementById('searchBtn');
     const logOutput = document.getElementById('logOutput');
-
-    document.addEventListener('keydown', function(e) {
-        if ((e.ctrlKey && e.shiftKey && e.key === 'I') || 
-            e.key === 'F12' || 
-            (e.ctrlKey && e.key === 'u') || 
-            (e.ctrlKey && e.shiftKey && e.key === 'C')) {
-            e.preventDefault();
-            addLog('Developer tools access blocked', 'error');
-            return false;
-        }
-    });
     
     document.addEventListener('contextmenu', function(e) {
         e.preventDefault();
