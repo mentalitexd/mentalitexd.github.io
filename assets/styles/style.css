@@ -1,0 +1,243 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Orbitron', sans-serif;
+}
+
+body {
+    background-color: #000;
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.background-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #0a0a2a 0%, #000 70%);
+    filter: blur(5px);
+}
+
+.police-light {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.3;
+    animation: pulse 4s infinite;
+}
+
+.police-light.red {
+    background: #ff0000;
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.police-light.blue {
+    background: #0066ff;
+    bottom: 10%;
+    right: 10%;
+    animation-delay: 2s;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.1; transform: scale(0.8); }
+    50% { opacity: 0.3; transform: scale(1.2); }
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+}
+
+.title {
+    font-size: 3.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    background: linear-gradient(90deg, #ff0000, #0066ff, #ff00ff, #ff0000);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: rgb-flow 5s linear infinite;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+@keyframes rgb-flow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+}
+
+.search-container {
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.input-container {
+    display: flex;
+    background: rgba(30, 30, 30, 0.7);
+    border-radius: 50px;
+    padding: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.2);
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from { box-shadow: 0 0 10px rgba(255, 0, 255, 0.2); }
+    to { box-shadow: 0 0 20px rgba(0, 102, 255, 0.4); }
+}
+
+#gameID {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 1rem 1.5rem;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+}
+
+#gameID::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+#searchBtn {
+    background: #000;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#searchBtn:hover {
+    transform: rotate(90deg);
+    background: #222;
+}
+
+#searchBtn i {
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.log-container {
+    width: 100%;
+    background: rgba(20, 20, 20, 0.8);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#logOutput {
+    color: #0f0;
+    font-family: monospace;
+    font-size: 0.9rem;
+    white-space: pre-wrap;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    background: rgba(10, 10, 10, 0.8);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 2;
+}
+
+.footer-left, .footer-center, .footer-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-left {
+    justify-content: flex-start;
+    padding-left: 1rem;
+}
+
+.footer-right {
+    justify-content: flex-end;
+    padding-right: 1rem;
+}
+
+.footer-right i {
+    font-size: 1.5rem;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.footer-right i:hover {
+    color: #1b9fff;
+    transform: scale(1.2);
+}
+
+.social-link {
+    color: #fff;
+    margin: 0 0.5rem;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.social-link:hover {
+    color: #ff00ff;
+    transform: scale(1.2);
+}
+
+/* Responsive tasarım */
+@media (max-width: 768px) {
+    .title {
+        font-size: 2.5rem;
+    }
+    
+    .container {
+        padding: 1rem;
+    }
+    
+    footer {
+        flex-direction: column;
+        text-align: center;
+        padding: 0.5rem;
+    }
+    
+    .footer-left, .footer-center, .footer-right {
+        padding: 0.3rem;
+        justify-content: center;
+    }
+}
