@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function makeApiRequest(gameID) {
-        const apiUrl = `https://violand.dev.tc/api/manifest/${gameID}`;
+        const apiUrl = `https://app-violand.dev.tc/api/manifest/${gameID}`;
         
         fetch(apiUrl)
             .then(response => {
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
             gameID: gameID
         });
         
-        const downloadUrl = `https://violand.dev.tc/api/manifest/${gameID}/download`;
+        const downloadUrl = `https://app-violand.dev.tc/api/manifest/${gameID}/download`;
         
         fetch(downloadUrl)
             .then(response => {
