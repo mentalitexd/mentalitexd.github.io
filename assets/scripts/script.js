@@ -7,12 +7,18 @@ document.addEventListener('DOMContentLoaded', function() {
     let apiSettings = {};
     
     fetch('./assets/settings/api.json')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`API settings fetch failed: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(settings => {
             apiSettings = settings;
         })
         .catch(error => {
             console.error('API settings error:', error);
+            addLog('Failed to load API settings', 'error');
         });
     
     searchBtn.addEventListener('click', searchGame);
@@ -53,14 +59,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                return response.json();
+                const contentLength = response.headers.get('content-length');
+                if (contentLength === '0') {
+                    throw new Error('Empty response from server');
+                }
+                
+                return response.text().then(text => {
+                    if (!text || text.trim() === '') {
+                        throw new Error('Empty response body');
+                    }
+                    
+                    try {
+                        return JSON.parse(text);
+                    } catch (parseError) {
+                        console.error('JSON Parse Error:', parseError, 'Response text:', text);
+                        throw new Error(`Invalid JSON response: ${parseError.message}`);
+                    }
+                });
             })
             .then(data => {
-                if (data.status === 'ok') {
+                if (data && data.status === 'ok') {
                     addLog(`Game ID ${gameID} found`, 'success');
                     downloadManifest(gameID);
                 } else {
-                    addLog(`Game ID ${gameID} not found: ${data.message || 'Unknown error'}`, 'error');
+                    const errorMsg = data?.message || 'Unknown error';
+                    addLog(`Game ID ${gameID} not found: ${errorMsg}`, 'error');
                 }
             })
             .catch(error => {
@@ -79,6 +102,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (!response.ok) {
                     throw new Error(`Download failed with status: ${response.status}`);
                 }
+                
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/zip')) {
+                    console.warn('Unexpected content type:', contentType);
+                }
+                
                 return response.blob();
             })
             .then(blob => {
@@ -94,6 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.body.appendChild(a);
                 a.click();
                 window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
                 
                 addLog(`Manifest downloaded successfully: ${gameID}_manifest.zip`, 'success');
             })
