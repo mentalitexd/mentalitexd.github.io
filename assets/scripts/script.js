@@ -2,11 +2,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const gameIDInput = document.getElementById('gameID');
     const searchBtn = document.getElementById('searchBtn');
     const logOutput = document.getElementById('logOutput');
+    const backBtn = document.getElementById('backBtn');
     
-    document.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
-        return false;
-    });
+    let apiSettings = {};
+    
+    fetch('./assets/settings/api.json')
+        .then(response => response.json())
+        .then(settings => {
+            apiSettings = settings;
+            addLog('API settings loaded', 'info');
+        })
+        .catch(error => {
+            addLog('Failed to load API settings: ' + error.message, 'error');
+        });
     
     searchBtn.addEventListener('click', searchGame);
     
@@ -16,15 +24,24 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    backBtn.addEventListener('click', function() {
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.5s ease';
+        
+        setTimeout(() => {
+            window.location.href = 'https://violand.dev.tc';
+        }, 500);
+    });
+    
     function searchGame() {
         const gameID = gameIDInput.value.trim();
         
         if (!gameID) {
-            addLog('Lütfen Oyun ID Girin!', 'error');
+            addLog('Please enter a valid Game ID', 'error');
             return;
         }
         
-        addLog(`Oyun Manifesti Aranıyor: ${gameID}`, 'info');
+        addLog(`Searching for Game ID: ${gameID}`, 'info');
         
         makeApiRequest(gameID);
     }
@@ -37,19 +54,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 const statusCode = response.status;
                 
                 if (statusCode === 200) {
-                    addLog(`Oyun ID ${gameID} bulundu`, 'success');
+                    addLog(`Game ID ${gameID} found`, 'success');
                     downloadManifest(gameID);
                 } else {
-                    addLog(`Oyun ID ${gameID} Bulunamadı (Error: ${statusCode})`, 'error');
+                    addLog(`Game ID ${gameID} not found (Error: ${statusCode})`, 'error');
                 }
             })
             .catch(error => {
-                addLog(`API istek başarısız: ${error.message}`, 'error');
+                addLog(`API request failed: ${error.message}`, 'error');
             });
     }
     
     function downloadManifest(gameID) {
-        addLog(`${gameID} Oyun manifesti indiriliyor`, 'info');
+        addLog(`Downloading manifest for Game ID: ${gameID}`, 'info');
         
         const downloadUrl = `https://app-violand.dev.tc/api/manifest/${gameID}/download`;
         
@@ -58,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (response.ok) {
                     return response.blob();
                 }
-                throw new Error('Manifest indirme başarısız');
+                throw new Error('Manifest download failed');
             })
             .then(blob => {
                 const url = window.URL.createObjectURL(blob);
@@ -70,10 +87,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 a.click();
                 window.URL.revokeObjectURL(url);
                 
-                addLog(`Manifest başarıyla indirildi: ${gameID}_manifest.zip`, 'success');
+                addLog(`Manifest downloaded successfully: ${gameID}_manifest.zip`, 'success');
             })
             .catch(error => {
-                addLog(`İndirme hatası: ${error.message}`, 'error');
+                addLog(`Download failed: ${error.message}`, 'error');
             });
     }
     
@@ -89,13 +106,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     gameIDInput.addEventListener('focus', function() {
-        this.parentElement.style.boxShadow = '0 0 30px rgba(255, 0, 204, 0.6)';
-        this.parentElement.style.transform = 'translateY(-3px)';
+        this.parentElement.style.boxShadow = '0 10px 40px rgba(110, 69, 226, 0.4)';
+        this.parentElement.style.borderColor = 'rgba(110, 69, 226, 0.5)';
     });
     
     gameIDInput.addEventListener('blur', function() {
-        this.parentElement.style.boxShadow = '0 0 20px rgba(0, 204, 255, 0.4)';
-        this.parentElement.style.transform = 'translateY(0)';
+        this.parentElement.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.2)';
+        this.parentElement.style.borderColor = 'rgba(255, 255, 255, 0.1)';
     });
-
 });
