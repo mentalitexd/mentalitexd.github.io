@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const lookupType = document.getElementById('lookupType');
-    const lookupQuery = document.getElementById('lookupQuery');
+    const lookupTypeSelect = document.getElementById('lookupType');
+    const lookupQueryInput = document.getElementById('lookupQuery');
     const lookupBtn = document.getElementById('lookupBtn');
-    const resultsOutput = document.getElementById('resultsOutput');
+    const lookupResult = document.getElementById('lookupResult');
     const backBtn = document.getElementById('backBtn');
     
     backBtn.addEventListener('click', function() {
@@ -14,113 +14,64 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 500);
     });
     
-    lookupBtn.addEventListener('click', function() {
-        const type = lookupType.value;
-        const query = lookupQuery.value.trim();
+    lookupBtn.addEventListener('click', performLookup);
+    
+    lookupQueryInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            performLookup();
+        }
+    });
+    
+    function performLookup() {
+        const queryType = lookupTypeSelect.value;
+        const queryValue = lookupQueryInput.value.trim();
         
-        if (!query) {
-            showResult('error', 'Please enter a search query');
+        if (!queryValue) {
+            showResult('Please enter a valid query', 'error');
             return;
         }
         
-        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching...';
-        this.disabled = true;
+        showResult('Searching...', 'info');
         
-        performLookup(type, query);
-    });
-    lookupQuery.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            lookupBtn.click();
-        }
-    });
-    
-    function performLookup(type, query) {
-        fetch('https://app-violand.dev.tc/api/lookup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            mode: 'cors',
-            credentials: 'include',
-            body: JSON.stringify({
-                type: type,
-                query: query
-            })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            lookupBtn.innerHTML = '<i class="fas fa-search"></i> Search';
-            lookupBtn.disabled = false;
-            
-            if (data.status === 'success') {
-                showResult('success', type, query, data);
-            } else {
-                showResult('error', data.message || 'Lookup failed');
-            }
-        })
-        .catch(error => {
-            lookupBtn.innerHTML = '<i class="fas fa-search"></i> Search';
-            lookupBtn.disabled = false;
-            
-            showResult('error', 'Network error: ' + error.message);
-            console.error('Lookup error:', error);
-        });
-    }
-    
-    function showResult(type, message, query = null, data = null) {
-        const resultItem = document.createElement('div');
-        resultItem.className = `result-item ${type}`;
+        const apiUrl = `https://app-violand.dev.tc/api/lookup?type=${queryType}&query=${encodeURIComponent(queryValue)}`;
         
-        if (type === 'success') {
-            resultItem.innerHTML = `
-                <div class="result-header">
-                    <span class="result-type">${data.type.toUpperCase()}</span>
-                    <span class="result-query">${data.query}</span>
-                </div>
-                <div class="result-data">
-                    <pre>${formatResultData(data)}</pre>
-                </div>
-            `;
-        } else {
-            resultItem.innerHTML = `
-                <div class="result-header">
-                    <span class="result-type">ERROR</span>
-                </div>
-                <div class="result-data">
-                    <pre>${message}</pre>
-                </div>
-            `;
-        }
-        
-        resultsOutput.appendChild(resultItem);
-
-        resultsOutput.scrollTop = resultsOutput.scrollHeight;
-        
-        const noResults = resultsOutput.querySelector('.no-results');
-        if (noResults) {
-            noResults.remove();
-        }
-    }
-    
-    function formatResultData(data) {
-        if (data.data && Array.isArray(data.data) && data.data.length > 0) {
-            return data.data.map(item => {
-                if (typeof item === 'object') {
-                    return Object.entries(item)
-                        .map(([key, value]) => `${key}: ${value}`)
-                        .join('\n');
+        fetch(apiUrl)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
                 }
-                return String(item);
-            }).join('\n\n');
-        } else if (data.raw_data) {
-            return data.raw_data;
-        } else {
-            return 'No data found';
-        }
+                throw new Error('Lookup request failed');
+            })
+            .then(data => {
+                if (data.status === "success") {
+                    if (data.data) {
+                        showResult(JSON.stringify(data.data, null, 2), 'success');
+                    } else if (data.raw_data) {
+                        showResult(data.raw_data, 'success');
+                    } else {
+                        showResult('No data found', 'info');
+                    }
+                } else {
+                    showResult(`Lookup failed: ${data.message}`, 'error');
+                }
+            })
+            .catch(error => {
+                showResult(`Lookup error: ${error.message}`, 'error');
+            });
     }
+    
+    function showResult(message, type = 'info') {
+        lookupResult.textContent = message;
+        lookupResult.className = `lookup-result ${type}`;
+    }
+    
+    lookupQueryInput.addEventListener('focus', function() {
+        this.parentElement.style.boxShadow = '0 10px 40px rgba(110, 69, 226, 0.4)';
+        this.parentElement.style.borderColor = 'rgba(110, 69, 226, 0.5)';
+    });
+    
+    lookupQueryInput.addEventListener('blur', function() {
+        this.parentElement.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.2)';
+        this.parentElement.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+    });
 });
