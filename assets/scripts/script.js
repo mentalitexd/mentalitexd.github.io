@@ -10,10 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(settings => {
             apiSettings = settings;
-            addLog('API settings loaded', 'info');
         })
         .catch(error => {
-            addLog('Failed to load API settings: ' + error.message, 'error');
         });
     
     searchBtn.addEventListener('click', searchGame);
@@ -51,13 +49,18 @@ document.addEventListener('DOMContentLoaded', function() {
         
         fetch(apiUrl)
             .then(response => {
-                const statusCode = response.status;
-                
-                if (statusCode === 200) {
+                if (response.status === 200) {
+                    return response.json();
+                } else {
+                    throw new Error(`Game ID ${gameID} not found (Error: ${response.status})`);
+                }
+            })
+            .then(data => {
+                if (data.status === "ok") {
                     addLog(`Game ID ${gameID} found`, 'success');
                     downloadManifest(gameID);
                 } else {
-                    addLog(`Game ID ${gameID} not found (Error: ${statusCode})`, 'error');
+                    addLog(`Game ID ${gameID} not found: ${data.message}`, 'error');
                 }
             })
             .catch(error => {
