@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VioLand - Data Lookup</title>
+    <link rel="stylesheet" href="./assets/lookup/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="./icons/V-ico.png" type="image/png">
+</head>
+<body>
+    <div class="background-animation">
+        <div class="floating-particles"></div>
+        <div class="glow-effect"></div>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="title">DATA LOOKUP</h1>
+            <p class="subtitle">Search for data breaches</p>
+        </div>
+        
+        <div class="lookup-form">
+            <div class="form-group">
+                <label for="lookupType">Search Type</label>
+                <select id="lookupType">
+                    <option value="username">Username</option>
+                    <option value="email">Email</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="lookupQuery">Search Query</label>
+                <input type="text" id="lookupQuery" placeholder="Enter username or email...">
+            </div>
+            
+            <button id="lookupBtn" class="lookup-button">
+                <i class="fas fa-search"></i>
+                Search
+            </button>
+        </div>
+        
+        <div class="results-container">
+            <h3>Search Results</h3>
+            <div id="resultsOutput">
+                <div class="no-results">No search performed yet</div>
+            </div>
+        </div>
+        
+        <div class="back-button">
+            <button id="backBtn">
+                <i class="fas fa-arrow-left"></i>
+                Back to Home
+            </button>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-left">Developed by Mentalite</div>
+            <div class="footer-center">
+                <a href="https://www.instagram.com/mentalitexyz" target="_blank" class="social-link">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://discord.com/users/788686743427612673" target="_blank" class="social-link">
+                    <i class="fab fa-discord"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./assets/lookup/script.js"></script>
+</body>
+</html>
