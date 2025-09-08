@@ -10,10 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(settings => {
             apiSettings = settings;
-            addLog('API settings loaded', 'info');
         })
         .catch(error => {
-            addLog('Failed to load API settings: ' + error.message, 'error');
         });
     
     searchBtn.addEventListener('click', searchGame);
