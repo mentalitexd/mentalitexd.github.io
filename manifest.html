@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VioLand - Manifest Generator</title>
+    <link rel="stylesheet" href="./assets/styles/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="./icons/kendimkoyucam.png" type="image/png">
+</head>
+<body>
+    <div class="background-animation">
+        <div class="floating-particles"></div>
+        <div class="glow-effect"></div>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="title">MANIFEST GENERATOR</h1>
+            <p class="subtitle">Enter Game ID to generate Steam manifest</p>
+        </div>
+        
+        <div class="search-container">
+            <div class="input-container">
+                <input type="text" id="gameID" placeholder="Enter Game ID...">
+                <button id="searchBtn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="log-container">
+            <div id="logOutput">
+                <div class="log-entry log-info">[SYSTEM] Manifest Generator ready</div>
+                <div class="log-entry log-info">[SYSTEM] Enter a Game ID to begin</div>
+            </div>
+        </div>
+        
+        <div class="back-button">
+            <button id="backBtn">
+                <i class="fas fa-arrow-left"></i>
+                Back to Home
+            </button>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-left">Developed by Mentalite</div>
+            <div class="footer-center">
+                <a href="https://www.instagram.com/mentalitexyz" target="_blank" class="social-link">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://discord.com/users/788686743427612673" target="_blank" class="social-link">
+                    <i class="fab fa-discord"></i>
+                </a>
+            </div>
+            <div class="footer-right">
+                <i class="fab fa-steam"></i>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./assets/scripts/script.js"></script>
+</body>
+</html>
