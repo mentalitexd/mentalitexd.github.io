@@ -3,53 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VioLand - Manifest Generator</title>
-    <link rel="stylesheet" href="./assets/styles/style.css">
+    <title>Bakım Modu</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="./icons/V-ico.png" type="image/png">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: rgba(30, 30, 30, 0.8);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+        
+        .icon-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #333;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #444;
+        }
+        
+        .maintenance-icon {
+            color: #ffcc00;
+            font-size: 40px;
+        }
+        
+        .status-text {
+            color: #ffcc00;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .message {
+            color: #888;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+        
+        .contact-text {
+            color: #aaa;
+            margin: 25px 0 15px;
+            font-size: 16px;
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .social-icons a {
+            color: #ddd;
+            font-size: 24px;
+            transition: color 0.3s;
+        }
+        
+        .social-icons a:hover {
+            color: #ffcc00;
+        }
+    </style>
 </head>
 <body>
-    <div class="background-animation">
-        <div class="floating-particles"></div>
-        <div class="glow-effect"></div>
-    </div>
-    
     <div class="container">
-        <div class="header">
-            <h1 class="title">MANIFEST GENERATOR</h1>
-            <p class="subtitle">Enter Game ID to generate Steam manifest</p>
+        <div class="icon-circle">
+            <i class="fas fa-tools maintenance-icon"></i>
         </div>
         
-        <div class="search-container">
-            <div class="input-container">
-                <input type="text" id="gameID" placeholder="Enter Game ID...">
-                <button id="searchBtn">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
+        <div class="status-text">Maintenance in Progress</div>
+        
+        <div class="message">
+            Our site is currently under maintenance. Estimated opening time is 12 hours. 
+            Thank you for your understanding :)
         </div>
         
-        <div class="log-container">
-            <div id="logOutput">
-                <div class="log-entry log-info">[SYSTEM] Manifest Generator ready</div>
-                <div class="log-entry log-info">[SYSTEM] Enter a Game ID to begin</div>
-            </div>
-        </div>
+        <div class="contact-text">If you have any questions about the site:</div>
         
-        <div class="back-button">
-            <button id="backBtn">
-                <i class="fas fa-arrow-left"></i>
-                Back to Home
-            </button>
+        <div class="social-icons">
+            <a href="https://www.instagram.com/mentalitexyz" target="_blank" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://discord.com/users/788686743427612673" target="_blank" title="Discord">
+                <i class="fab fa-discord"></i>
+            </a>
         </div>
     </div>
-    
-    <footer>
-        <div class="footer-content">
-            <div class="footer-center">Developed by Mentalite</div>
-        </div>
-    </footer>
-
-    <script src="./assets/scripts/script.js"></script>
 </body>
 </html>
