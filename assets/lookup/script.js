@@ -38,9 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch('https://app-violand.dev.tc/api/lookup', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Origin': 'https://violand.dev.tc'
+                'Content-Type': 'application/json'
             },
             mode: 'cors',
             credentials: 'include',
