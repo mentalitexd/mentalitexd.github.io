@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
             apiSettings = settings;
         })
         .catch(error => {
+            console.error('API settings error:', error);
         });
     
     searchBtn.addEventListener('click', searchGame);
@@ -49,17 +50,22 @@ document.addEventListener('DOMContentLoaded', function() {
         
         fetch(apiUrl)
             .then(response => {
-                const statusCode = response.status;
-                
-                if (statusCode === 200) {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === 'ok') {
                     addLog(`Game ID ${gameID} found`, 'success');
                     downloadManifest(gameID);
                 } else {
-                    addLog(`Game ID ${gameID} not found (Error: ${statusCode})`, 'error');
+                    addLog(`Game ID ${gameID} not found: ${data.message || 'Unknown error'}`, 'error');
                 }
             })
             .catch(error => {
                 addLog(`API request failed: ${error.message}`, 'error');
+                console.error('API Error:', error);
             });
     }
     
@@ -70,12 +76,16 @@ document.addEventListener('DOMContentLoaded', function() {
         
         fetch(downloadUrl)
             .then(response => {
-                if (response.ok) {
-                    return response.blob();
+                if (!response.ok) {
+                    throw new Error(`Download failed with status: ${response.status}`);
                 }
-                throw new Error('Manifest download failed');
+                return response.blob();
             })
             .then(blob => {
+                if (blob.size === 0) {
+                    throw new Error('Downloaded file is empty');
+                }
+                
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.style.display = 'none';
@@ -89,6 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 addLog(`Download failed: ${error.message}`, 'error');
+                console.error('Download Error:', error);
             });
     }
     
