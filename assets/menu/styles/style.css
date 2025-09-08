@@ -121,6 +121,40 @@ body {
     transform: translateY(0);
 }
 
+.main-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+    animation: fadeInUp 1s ease-out 0.2s both;
+}
+
+.main-btn {
+    position: relative;
+    background: linear-gradient(135deg, #2c2c54, #40407a);
+    border: none;
+    padding: 1.5rem 3rem;
+    border-radius: 12px;
+    color: white;
+    font-size: 1.3rem;
+    font-weight: 600;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    width: 300px;
+    text-align: center;
+}
+
+.main-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(110, 69, 226, 0.4);
+}
+
+.main-btn:active {
+    transform: translateY(0);
+}
+
 .btn-text {
     position: relative;
     z-index: 2;
@@ -215,8 +249,6 @@ footer {
         transform: translateY(0);
     }
 }
-
-/* Responsive tasarım */
 @media (max-width: 768px) {
     .logo h1 {
         font-size: 3rem;
