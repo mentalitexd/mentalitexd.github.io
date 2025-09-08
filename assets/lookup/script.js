@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         performLookup(type, query);
     });
-    
     lookupQuery.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             lookupBtn.click();
@@ -40,13 +39,22 @@ document.addEventListener('DOMContentLoaded', function() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Origin': 'https://violand.dev.tc'
             },
+            mode: 'cors',
+            credentials: 'include',
             body: JSON.stringify({
                 type: type,
                 query: query
             })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             lookupBtn.innerHTML = '<i class="fas fa-search"></i> Search';
             lookupBtn.disabled = false;
@@ -62,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
             lookupBtn.disabled = false;
             
             showResult('error', 'Network error: ' + error.message);
+            console.error('Lookup error:', error);
         });
     }
     
@@ -91,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         resultsOutput.appendChild(resultItem);
-        
+
         resultsOutput.scrollTop = resultsOutput.scrollHeight;
         
         const noResults = resultsOutput.querySelector('.no-results');
