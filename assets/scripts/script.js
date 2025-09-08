@@ -7,18 +7,13 @@ document.addEventListener('DOMContentLoaded', function() {
     let apiSettings = {};
     
     fetch('./assets/settings/api.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`API settings fetch failed: ${response.status}`);
-            }
-            return response.json();
-        })
+        .then(response => response.json())
         .then(settings => {
             apiSettings = settings;
+            addLog('API settings loaded', 'info');
         })
         .catch(error => {
-            console.error('API settings error:', error);
-            addLog('Failed to load API settings', 'error');
+            addLog('Failed to load API settings: ' + error.message, 'error');
         });
     
     searchBtn.addEventListener('click', searchGame);
@@ -56,39 +51,17 @@ document.addEventListener('DOMContentLoaded', function() {
         
         fetch(apiUrl)
             .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const contentLength = response.headers.get('content-length');
-                if (contentLength === '0') {
-                    throw new Error('Empty response from server');
-                }
+                const statusCode = response.status;
                 
-                return response.text().then(text => {
-                    if (!text || text.trim() === '') {
-                        throw new Error('Empty response body');
-                    }
-                    
-                    try {
-                        return JSON.parse(text);
-                    } catch (parseError) {
-                        console.error('JSON Parse Error:', parseError, 'Response text:', text);
-                        throw new Error(`Invalid JSON response: ${parseError.message}`);
-                    }
-                });
-            })
-            .then(data => {
-                if (data && data.status === 'ok') {
+                if (statusCode === 200) {
                     addLog(`Game ID ${gameID} found`, 'success');
                     downloadManifest(gameID);
                 } else {
-                    const errorMsg = data?.message || 'Unknown error';
-                    addLog(`Game ID ${gameID} not found: ${errorMsg}`, 'error');
+                    addLog(`Game ID ${gameID} not found (Error: ${statusCode})`, 'error');
                 }
             })
             .catch(error => {
                 addLog(`API request failed: ${error.message}`, 'error');
-                console.error('API Error:', error);
             });
     }
     
@@ -99,22 +72,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         fetch(downloadUrl)
             .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Download failed with status: ${response.status}`);
+                if (response.ok) {
+                    return response.blob();
                 }
-                
-                const contentType = response.headers.get('content-type');
-                if (!contentType || !contentType.includes('application/zip')) {
-                    console.warn('Unexpected content type:', contentType);
-                }
-                
-                return response.blob();
+                throw new Error('Manifest download failed');
             })
             .then(blob => {
-                if (blob.size === 0) {
-                    throw new Error('Downloaded file is empty');
-                }
-                
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.style.display = 'none';
@@ -123,13 +86,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.body.appendChild(a);
                 a.click();
                 window.URL.revokeObjectURL(url);
-                document.body.removeChild(a);
                 
                 addLog(`Manifest downloaded successfully: ${gameID}_manifest.zip`, 'success');
             })
             .catch(error => {
                 addLog(`Download failed: ${error.message}`, 'error');
-                console.error('Download Error:', error);
             });
     }
     
